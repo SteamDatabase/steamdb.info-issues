@@ -1,12 +1,12 @@
 // ==UserScript==
 // @version        1.0
 // @name           Steam Store - Apps Database Link
-// @namespace      http://cdr.xpaw.ru/?user=store
+// @namespace      http://steamdb.info/?user=store
 // @match          http://store.steampowered.com/app/*
 // @match          http://store.steampowered.com/sub/*
 // ==/UserScript==
 
-var mainURL = 'http://cdr.xpaw.ru',
+var mainURL = 'http://steamdb.info',
 	appid = location.pathname.match( /(\d)+/g ),
 	isSubPage = location.pathname.match( /\/sub\// ),
 	demoBlock = document.querySelector( isSubPage ? '.share' : '.demo_area_button' );
