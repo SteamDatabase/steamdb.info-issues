@@ -1,5 +1,5 @@
 // ==UserScript==
-// @version        1.1
+// @version        1.2
 // @name           Steam Apps Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @namespace      http://steamdb.info/userscript/
@@ -47,7 +47,7 @@ if( location.hostname === 'steamcommunity.com' )
 		
 		element = document.createElement( 'div' );
 		element.className = 'actionItem';
-		element.innerHTML = '<div class="actionItemIcon"></div><a class="linkActionMinor" target="_blank" href="' + mainURL + '/app/' + appid + '/">View in Steam Database</a>';
+		element.innerHTML = '<div class="actionItemIcon"><img src="' + mainURL + '/static/userjs/group.png" width="16" height="16" alt=""></div><a class="linkActionMinor" target="_blank" href="' + mainURL + '/app/' + appid + '/">View in Steam Database</a>';
 		
 		//container.insertBefore( element, container.firstChild );
 		container.insertBefore( element, null );
@@ -82,7 +82,7 @@ else
 	
 	element = document.createElement( 'div' );
 	element.className = 'demo_area_button';
-	element.innerHTML = '<a class="game_area_wishlist_btn" target="_blank" href="' + mainURL + ( isSubPage ? '/sub/' : '/app/' ) + appid + '/">View in Steam Database</a>';
+	element.innerHTML = '<a class="game_area_wishlist_btn" target="_blank" href="' + mainURL + ( isSubPage ? '/sub/' : '/app/' ) + appid + '/" style="background-image:url(' + mainURL + '/static/userjs/store.png)">View in Steam Database</a>';
 
 	container.insertBefore( element, container.firstChild );
 }
