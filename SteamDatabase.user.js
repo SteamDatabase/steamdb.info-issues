@@ -1,5 +1,5 @@
 // ==UserScript==
-// @version        1.2
+// @version        1.3
 // @name           Steam Apps Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @namespace      http://steamdb.info/userscript/
@@ -10,8 +10,27 @@
 // ==/UserScript==
 
 var mainURL = 'http://steamdb.info',
-	appid = location.pathname.match( /(\d)+/g )[ 0 ],
+	appid = location.pathname.match( /(\d)+/g ),
 	element, container;
+
+// Some game groups fancy custom urls
+if( !appid )
+{
+	// Let's try to find game hub link, what possibly could go wrong?
+	appid = document.querySelector( 'a[href*="http://steamcommunity.com/app/"]' );
+	
+	if( !appid )
+	{
+		// Well...
+		
+		return;
+	}
+	
+	// I will be surprised if it's not broken at this point
+	appid = appid.href.match( /(\d)+/g );
+}
+
+appid = appid[ 0 ];
 
 if( location.hostname === 'steamcommunity.com' )
 {
