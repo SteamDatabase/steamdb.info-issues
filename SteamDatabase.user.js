@@ -10,7 +10,7 @@
 // ==/UserScript==
 
 var mainURL = 'http://steamdb.info',
-	appid = location.pathname.match( /(\d)+/g ),
+	appid = location.pathname.match( /(\d)+/g )[ 0 ],
 	element, container;
 
 if( location.hostname === 'steamcommunity.com' )
