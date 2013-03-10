@@ -3,6 +3,7 @@
 // @name           Steam Apps Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @namespace      http://steamdb.info/userscript/
+// @icon           http://steamdb.info/static/logo_144px.png
 // @match          http://store.steampowered.com/app/*
 // @match          http://store.steampowered.com/sub/*
 // @match          http://steamcommunity.com/app/*
