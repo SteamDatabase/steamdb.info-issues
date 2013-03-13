@@ -103,15 +103,13 @@ else
 	{
 		// Video page
 		
-		container = document.querySelector( '.details_block' );
+		container = document.querySelector( '.game_details .block_content_inner' );
 		
 		if( container )
 		{
 			container.insertBefore( element, null );
 			
 			// Make it prettier
-			container.style.marginBottom = 0;
-			element.style.marginTop = '15px';
 			element.className = '';
 		}
 	}
