@@ -1,11 +1,12 @@
 // ==UserScript==
-// @version        1.3
+// @version        1.4
 // @name           Steam Apps Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @namespace      http://steamdb.info/userscript/
 // @icon           http://steamdb.info/static/logo_144px.png
 // @match          http://store.steampowered.com/app/*
 // @match          http://store.steampowered.com/sub/*
+// @match          http://store.steampowered.com/video/*
 // @match          http://steamcommunity.com/app/*
 // @match          http://steamcommunity.com/games/*
 // ==/UserScript==
@@ -69,7 +70,6 @@ if( location.hostname === 'steamcommunity.com' )
 		element.className = 'actionItem';
 		element.innerHTML = '<div class="actionItemIcon"><img src="' + mainURL + '/static/userjs/group.png" width="16" height="16" alt=""></div><a class="linkActionMinor" target="_blank" href="' + mainURL + '/app/' + appid + '/">View in Steam Database</a>';
 		
-		//container.insertBefore( element, container.firstChild );
 		container.insertBefore( element, null );
 		
 		// While we're here, let's fix this annoyance
@@ -83,26 +83,47 @@ if( location.hostname === 'steamcommunity.com' )
 }
 else
 {
-	var isSubPage = location.pathname.match( /\/sub\// );
-	
-	container = document.querySelector( isSubPage ? '.share' : '#demo_block .block_content_inner' );
-	
 	// Did we hit an error page?
-	if( !container )
+	container = document.getElementById( 'error_box' );
+	
+	if( container )
 	{
-		container = document.querySelector( '.error' );
-		
-		if( container )
-		{
-			container.innerHTML += '<br><br><a target="_blank" href="'+ mainURL + '/app/' + appid + '/">View in Steam Database</a>';
-		}
+		container.innerHTML += '<br><br><a target="_blank" href="'+ mainURL + '/app/' + appid + '/">View in Steam Database</a>';
 		
 		return;
 	}
 	
+	var isSubPage = location.pathname.match( /\/sub\// );
+	
 	element = document.createElement( 'div' );
 	element.className = 'demo_area_button';
 	element.innerHTML = '<a class="game_area_wishlist_btn" target="_blank" href="' + mainURL + ( isSubPage ? '/sub/' : '/app/' ) + appid + '/" style="background-image:url(' + mainURL + '/static/userjs/store.png)">View in Steam Database</a>';
-
-	container.insertBefore( element, container.firstChild );
+	
+	if( location.pathname.match( /\/video\// ) )
+	{
+		// Video page
+		
+		container = document.querySelector( '.details_block' );
+		
+		if( container )
+		{
+			container.insertBefore( element, null );
+			
+			// Make it prettier
+			container.style.marginBottom = 0;
+			element.style.marginTop = '15px';
+			element.className = '';
+		}
+	}
+	else
+	{
+		// App or sub page
+		
+		container = document.querySelector( isSubPage ? '.share' : '#demo_block .block_content_inner' );
+		
+		if( container )
+		{
+			container.insertBefore( element, container.firstChild );
+		}
+	}
 }
