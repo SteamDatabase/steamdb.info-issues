@@ -1,11 +1,12 @@
 // ==UserScript==
-// @version        1.3
+// @version        1.4
 // @name           Steam Apps Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @namespace      http://steamdb.info/userscript/
 // @icon           http://steamdb.info/static/logo_144px.png
 // @match          http://store.steampowered.com/app/*
 // @match          http://store.steampowered.com/sub/*
+// @match          http://store.steampowered.com/video/*
 // @match          http://steamcommunity.com/app/*
 // @match          http://steamcommunity.com/games/*
 // ==/UserScript==
@@ -84,14 +85,15 @@ if( location.hostname === 'steamcommunity.com' )
 else
 {
 	var isSubPage = location.pathname.match( /\/sub\// );
-	
-	container = document.querySelector( isSubPage ? '.share' : '#demo_block .block_content_inner' );
+	var	isVideoPage = location.pathname.match( /\/video\// );
+			
+	container = document.querySelector( isVideoPage ? '.details_block' : ( isSubPage ? '.share' : '#demo_block .block_content_inner' ) );
 	
 	// Did we hit an error page?
 	if( !container )
 	{
 		container = document.querySelector( '.error' );
-		
+	
 		if( container )
 		{
 			container.innerHTML += '<br><br><a target="_blank" href="'+ mainURL + '/app/' + appid + '/">View in Steam Database</a>';
@@ -99,10 +101,10 @@ else
 		
 		return;
 	}
-	
+		
 	element = document.createElement( 'div' );
-	element.className = 'demo_area_button';
-	element.innerHTML = '<a class="game_area_wishlist_btn" target="_blank" href="' + mainURL + ( isSubPage ? '/sub/' : '/app/' ) + appid + '/" style="background-image:url(' + mainURL + '/static/userjs/store.png)">View in Steam Database</a>';
-
-	container.insertBefore( element, container.firstChild );
+	element.className = isVideoPage ? 'game_info_button' : 'demo_area_button';
+	element.innerHTML = ( isVideoPage ? '<br>' : '' ) + '<a class="game_area_wishlist_btn" target="_blank" href="' + mainURL + ( isSubPage ? '/sub/' : '/app/' ) + appid + '/" style="background-image:url(' + mainURL + '/static/userjs/store.png)">View in Steam Database</a>';
+	
+	isVideoPage ? container.appendChild( element ) : container.insertBefore( element, container.firstChild );
 }
