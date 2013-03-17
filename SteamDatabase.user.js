@@ -1,5 +1,5 @@
 // ==UserScript==
-// @version        1.5
+// @version        1.5.1
 // @name           Steam Apps Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @namespace      http://steamdb.info/userscript/
@@ -137,6 +137,14 @@ else
 				appid = element.value; // It's subid, but let's reuse things
 				
 				element.parentElement.parentElement.insertAdjacentHTML( 'beforeEnd', '<a target="_blank" href="'+ mainURL + '/sub/' + appid + '/" style="float:left;color:#898A8C">View in Steam Database <i>(' + appid + ')</i></a>' );
+			}
+			
+			// While we're here, let's fix this broken url
+			element = document.querySelector( '.apphub_OtherSiteInfo a' );
+			
+			if( element && element.href.charAt( 26 ) === '/' ) // Pretty stupid check, but it works
+			{
+				element.href = element.href.replace( /\/\/app\//, '/app/' ) + '/';
 			}
 		}
 	}
