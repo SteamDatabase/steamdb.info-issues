@@ -1,5 +1,5 @@
 // ==UserScript==
-// @version        1.4
+// @version        1.5
 // @name           Steam Apps Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @namespace      http://steamdb.info/userscript/
@@ -88,7 +88,7 @@ else
 	
 	if( container )
 	{
-		container.innerHTML += '<br><br><a target="_blank" href="'+ mainURL + '/app/' + appid + '/">View in Steam Database</a>';
+		container.insertAdjacentHTML( 'beforeEnd', '<br><br><a target="_blank" href="'+ mainURL + '/app/' + appid + '/">View in Steam Database</a>' );
 		
 		return;
 	}
@@ -122,6 +122,22 @@ else
 		if( container )
 		{
 			container.insertBefore( element, container.firstChild );
+		}
+		
+		// Link each package on app page
+		if( !isSubPage )
+		{
+			// Find each "add to cart" button
+			container = document.querySelectorAll( 'input[name="subid"]' );
+			
+			for( var i = 0; i < container.length; i++ )
+			{
+				element = container[ i ];
+				
+				appid = element.value; // It's subid, but let's reuse things
+				
+				element.parentElement.parentElement.insertAdjacentHTML( 'beforeEnd', '<a target="_blank" href="'+ mainURL + '/sub/' + appid + '/" style="float:left;color:#898A8C">View in Steam Database <i>(' + appid + ')</i></a>' );
+			}
 		}
 	}
 }
