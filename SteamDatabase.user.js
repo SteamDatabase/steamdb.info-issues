@@ -48,7 +48,7 @@ if( location.hostname === 'steamcommunity.com' )
 		}
 		
 		element = document.createElement( 'a' );
-		element.className = 'btn_green_white_innerfade btn_medium';
+		element.className = 'btn_blue_white_innerfade btn_medium';
 		element.href = mainURL + '/app/' + appid + '/';
 		element.target = '_blank';
 		element.innerHTML = '<span>Steam Database</span>';
