@@ -2,6 +2,7 @@
 // @version        1.5.1
 // @name           Steam Apps Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
+// @homepage       http://steamdb.info
 // @namespace      http://steamdb.info/userscript/
 // @icon           http://steamdb.info/static/logo_144px.png
 // @match          http://store.steampowered.com/app/*
@@ -9,6 +10,7 @@
 // @match          http://store.steampowered.com/video/*
 // @match          http://steamcommunity.com/app/*
 // @match          http://steamcommunity.com/games/*
+// @updateURL      https://github.com/SteamDatabase/SteamDatabase/raw/master/SteamDatabase.user.js
 // ==/UserScript==
 
 var mainURL = 'http://steamdb.info',
