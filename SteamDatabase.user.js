@@ -1,5 +1,5 @@
 // ==UserScript==
-// @version        1.5.1
+// @version        1.5.2
 // @name           Steam Apps Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @homepage       http://steamdb.info
@@ -14,8 +14,11 @@
 // ==/UserScript==
 
 var mainURL = 'http://steamdb.info',
-	appid = location.pathname.match( /(\d)+/g ),
-	element, container;
+    appid = location.pathname.match( /(\d)+/g ),
+    element, container,
+
+    IMAGE_GROUP = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAeFBMVEUAAAD7+vvBwMHa2dj6+vvAv8GenZ/Z2djBv7/AwcDY2Nq/v8D6+vqdnp7Y2difnp7Awb/5+vnAv8C/v8Gdn5+enp7Z2NnBwMC/wL+fnZ6fn56en5/6+frZ2dnZ2NjY2dn5+/r7+fnY2Nj7+vr6+/qenp/AwMCen55YC6VhAAAAAXRSTlMAQObYZgAAAExJREFUeNq1zrcBgDAMAEEyJoPJwdmW9t+QBVTC11d89E9emynOWu28cQ8ptj5VQopalspaUhzz2FTAkpzvAKQIeK5D0eGC1x2+GX8BaDwE0HkrefEAAAAASUVORK5CYII=',
+    IMAGE_STORE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARYAAAAlCAMAAACwCjbKAAABGlBMVEUAAAD7+vv6+vvBv7/a2djAwcD6+vrY2NrBwMHZ2djAv8HY2dj5+vm/v8CenZ+dnp7Av8Cfnp7Awb/Z2Nmdn5/BwMC/v8Genp6/wL+fnZ6fn576+fqen5+Bf3vZ2dnZ2NjY2dn5+/r7+vr7+fnY2Nj6+/qenp+WlJFsammtq6ipp6Slo6Cgnpycmph9e3iGhIFxbmx1cnBoZmN5d3SPjYptamiYlpOUko+CgH07OTnAwMCen55oZWNraGZlYmBiX11/fHmxr6yLiYZ9e3dpZ2RsamdmZGFua2l7eXZjYF5vbWpxb2xgXVt6eHRycG11c3B3dXF0cm54dnNPTEtfXFpdWlhaV1VbWVdXVFJYVlRVUlFUUU9ST05RTk1/9Yr5AAAAAXRSTlMAQObYZgAAAQhJREFUeNrt0NVWAgEUBdAxUTFAMTDo7o4ZyjFAUcHC/v/f0OV58N5nH+fsT9jGj9QpSSnjVzpp059kGi2ZAQknGbRkz0jKoiU3IimHlvwtSXm0NB5IaqClOSWpiZbahKQaWux7kmy0FO9IKqKlNSaphZbCNUkFtFSHJFXRUr4gqYyWUleKh6Prc/PL4Ug8GjnqOlEJLfVzkupoqXSkHfdiKBAMuIKroVis40QVtFyShpaecrC3vbFkLqyseXZNs+dIaLkiDS19JWH5972bW5bPOjxO9B0JLTekoeWJNLQ8k4aWF9LQMiMNLW+koeWVNLS8k4aWD9LQ8kkaWr5IQ0v7kaS2QUT/9Q1Dy8tw8txFbQAAAABJRU5ErkJggg==';
 
 // Some game groups fancy custom urls
 if( !appid )
@@ -70,7 +73,7 @@ if( location.hostname === 'steamcommunity.com' )
 		
 		element = document.createElement( 'div' );
 		element.className = 'actionItem';
-		element.innerHTML = '<div class="actionItemIcon"><img src="' + mainURL + '/static/userjs/group.png" width="16" height="16" alt=""></div><a class="linkActionMinor" target="_blank" href="' + mainURL + '/app/' + appid + '/">View in Steam Database</a>';
+		element.innerHTML = '<div class="actionItemIcon"><img src="' + IMAGE_GROUP + '" width="16" height="16" alt=""></div><a class="linkActionMinor" target="_blank" href="' + mainURL + '/app/' + appid + '/">View in Steam Database</a>';
 		
 		container.insertBefore( element, null );
 		
@@ -99,7 +102,7 @@ else
 	
 	element = document.createElement( 'div' );
 	element.className = 'demo_area_button';
-	element.innerHTML = '<a class="game_area_wishlist_btn" target="_blank" href="' + mainURL + ( isSubPage ? '/sub/' : '/app/' ) + appid + '/" style="background-image:url(' + mainURL + '/static/userjs/store.png)">View in Steam Database</a>';
+	element.innerHTML = '<a class="game_area_wishlist_btn" target="_blank" href="' + mainURL + ( isSubPage ? '/sub/' : '/app/' ) + appid + '/" style="background-image:url(' + IMAGE_STORE + ')">View in Steam Database</a>';
 	
 	if( location.pathname.match( /\/video\// ) )
 	{
