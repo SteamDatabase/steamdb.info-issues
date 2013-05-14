@@ -29,11 +29,11 @@ var SteamDB =
 	
 	FindAppID: function( )
 	{
-		element = pathName.match( /(\d)+/g );
+		element = pathName.match( /\/(\d)+/g );
 		
 		if( element )
 		{
-			SteamDB.CurrentAppID = SteamDB.CurrentAppID[ 0 ];
+			SteamDB.CurrentAppID = element[ 0 ].substr( 1 );
 		}
 	},
 	
@@ -211,7 +211,7 @@ var SteamDB =
 			
 			try
 			{
-				if( item.appid === 753 )
+				if( item.appid == 753 )
 				{
 					if( rgActions )
 					{
@@ -266,6 +266,7 @@ var SteamDB =
 			catch( e )
 			{
 				// Don't break website functionality if something fails above
+				console.log( e );
 			}
 			
 			SteamDB_Hackery_PopulateActions( elActions, rgActions, item );
@@ -296,7 +297,7 @@ if( location.hostname === 'steamcommunity.com' )
 	{
 		SteamDB.InjectGameGroup( );
 	}
-	else if( pathName.match( /^\/(id|profiles)\/[\S]+\/inventory\// ) ) // /^\/(id|profiles)\//
+	else if( pathName.match( /^\/(id|profiles)\/[\S]+\/inventory/ ) ) // /^\/(id|profiles)\//
 	{
 		SteamDB.InjectProfileInventory( );
 	}
