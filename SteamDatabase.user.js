@@ -1,5 +1,5 @@
 // ==UserScript==
-// @version        1.6.0
+// @version        1.6.1
 // @name           Steam Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @homepage       http://steamdb.info
@@ -20,8 +20,9 @@ var mainURL  = 'http://steamdb.info',
     element,
     container,
 
-    IMAGE_GROUP = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAeFBMVEUAAAD7+vvBwMHa2dj6+vvAv8GenZ/Z2djBv7/AwcDY2Nq/v8D6+vqdnp7Y2difnp7Awb/5+vnAv8C/v8Gdn5+enp7Z2NnBwMC/wL+fnZ6fn56en5/6+frZ2dnZ2NjY2dn5+/r7+fnY2Nj7+vr6+/qenp/AwMCen55YC6VhAAAAAXRSTlMAQObYZgAAAExJREFUeNq1zrcBgDAMAEEyJoPJwdmW9t+QBVTC11d89E9emynOWu28cQ8ptj5VQopalspaUhzz2FTAkpzvAKQIeK5D0eGC1x2+GX8BaDwE0HkrefEAAAAASUVORK5CYII=',
-    IMAGE_STORE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARYAAAAlCAMAAACwCjbKAAABGlBMVEUAAAD7+vv6+vvBv7/a2djAwcD6+vrY2NrBwMHZ2djAv8HY2dj5+vm/v8CenZ+dnp7Av8Cfnp7Awb/Z2Nmdn5/BwMC/v8Genp6/wL+fnZ6fn576+fqen5+Bf3vZ2dnZ2NjY2dn5+/r7+vr7+fnY2Nj6+/qenp+WlJFsammtq6ipp6Slo6Cgnpycmph9e3iGhIFxbmx1cnBoZmN5d3SPjYptamiYlpOUko+CgH07OTnAwMCen55oZWNraGZlYmBiX11/fHmxr6yLiYZ9e3dpZ2RsamdmZGFua2l7eXZjYF5vbWpxb2xgXVt6eHRycG11c3B3dXF0cm54dnNPTEtfXFpdWlhaV1VbWVdXVFJYVlRVUlFUUU9ST05RTk1/9Yr5AAAAAXRSTlMAQObYZgAAAQhJREFUeNrt0NVWAgEUBdAxUTFAMTDo7o4ZyjFAUcHC/v/f0OV58N5nH+fsT9jGj9QpSSnjVzpp059kGi2ZAQknGbRkz0jKoiU3IimHlvwtSXm0NB5IaqClOSWpiZbahKQaWux7kmy0FO9IKqKlNSaphZbCNUkFtFSHJFXRUr4gqYyWUleKh6Prc/PL4Ug8GjnqOlEJLfVzkupoqXSkHfdiKBAMuIKroVis40QVtFyShpaecrC3vbFkLqyseXZNs+dIaLkiDS19JWH5972bW5bPOjxO9B0JLTekoeWJNLQ8k4aWF9LQMiMNLW+koeWVNLS8k4aWD9LQ8kkaWr5IQ0v7kaS2QUT/9Q1Dy8tw8txFbQAAAABJRU5ErkJggg==';
+    IMAGE_PROFILE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAACTElEQVR42p2UO2hTURjHr/XRQCtSWnyAOBWEVumQRXBSqTiUOqiL6CBZBCedpEtAhEJXoUPERbDo0slSUDSWFBQMQiSQ182TvG8Sktw8m3t7/J2QDKGxtl748f/O97rnfPdwFeUfjxDiDFyuVquTyv88FI92Op2bpmm+gi/YDsMwbuMfP3ATiq7BN9AoNkH0tITvZ6vVkg2PDS0ul8sTzWbzRrvd/gw7IPaD3O+NRuMuDafgiJLNZsfq9foizg1o8jZxCNo0/Eq9Tc5iBMOq6/omKg6JUavVXGzg6sDxaDYL65VKRUMNvpQYgkmsyCi20Ov7fq1CoTBP4goNg2CCkOBLoqulUmkhGo1aBgrtdvuI1+s9QfB+sVh8nc/nbTSzuN3u4xRN03QJ/za6jM7I2LD87rA1TXtBYhmEhOBv9An+c3KG/Reqqno6l8vdIf6DuAG7oLN+290V3U+xuEeSA9LYspnBS37Bc+xb6FNw9WICu0LuGjyIx+MTA8eU5yYwl06n34CeyWQEuoMWoNlbt+A9WP1+/8k9Q5Zdw+HwhWQyOSkvWCgUOo/tgEQqldIhg/0hkUhcGpaveDyeMZyLsAEqiZ/Qx5FI5CIJR9E51g/Z7RX5AdCz5DzC97GfH4vFbN0h4rBSsIkKCYE6qPhe9rfPXMbZwTMaqcR08nbBYO1CBy8kx5klsE6Bhho0EthZ/O/4YmG5BhOKsIXv7xeSotFgMDhP0goEwQQhIZaEVeILTqfTcqBfiZwHxdM+n28pEAhswzJNZvbc6N7zB4IDJhjugBeWAAAAAElFTkSuQmCC',
+    IMAGE_GROUP   = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAeFBMVEUAAAD7+vvBwMHa2dj6+vvAv8GenZ/Z2djBv7/AwcDY2Nq/v8D6+vqdnp7Y2difnp7Awb/5+vnAv8C/v8Gdn5+enp7Z2NnBwMC/wL+fnZ6fn56en5/6+frZ2dnZ2NjY2dn5+/r7+fnY2Nj7+vr6+/qenp/AwMCen55YC6VhAAAAAXRSTlMAQObYZgAAAExJREFUeNq1zrcBgDAMAEEyJoPJwdmW9t+QBVTC11d89E9emynOWu28cQ8ptj5VQopalspaUhzz2FTAkpzvAKQIeK5D0eGC1x2+GX8BaDwE0HkrefEAAAAASUVORK5CYII=',
+    IMAGE_STORE   = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARYAAAAlCAMAAACwCjbKAAABGlBMVEUAAAD7+vv6+vvBv7/a2djAwcD6+vrY2NrBwMHZ2djAv8HY2dj5+vm/v8CenZ+dnp7Av8Cfnp7Awb/Z2Nmdn5/BwMC/v8Genp6/wL+fnZ6fn576+fqen5+Bf3vZ2dnZ2NjY2dn5+/r7+vr7+fnY2Nj6+/qenp+WlJFsammtq6ipp6Slo6Cgnpycmph9e3iGhIFxbmx1cnBoZmN5d3SPjYptamiYlpOUko+CgH07OTnAwMCen55oZWNraGZlYmBiX11/fHmxr6yLiYZ9e3dpZ2RsamdmZGFua2l7eXZjYF5vbWpxb2xgXVt6eHRycG11c3B3dXF0cm54dnNPTEtfXFpdWlhaV1VbWVdXVFJYVlRVUlFUUU9ST05RTk1/9Yr5AAAAAXRSTlMAQObYZgAAAQhJREFUeNrt0NVWAgEUBdAxUTFAMTDo7o4ZyjFAUcHC/v/f0OV58N5nH+fsT9jGj9QpSSnjVzpp059kGi2ZAQknGbRkz0jKoiU3IimHlvwtSXm0NB5IaqClOSWpiZbahKQaWux7kmy0FO9IKqKlNSaphZbCNUkFtFSHJFXRUr4gqYyWUleKh6Prc/PL4Ug8GjnqOlEJLfVzkupoqXSkHfdiKBAMuIKroVis40QVtFyShpaecrC3vbFkLqyseXZNs+dIaLkiDS19JWH5972bW5bPOjxO9B0JLTekoeWJNLQ8k4aWF9LQMiMNLW+koeWVNLS8k4aWD9LQ8kkaWr5IQ0v7kaS2QUT/9Q1Dy8tw8txFbQAAAABJRU5ErkJggg==';
 
 var SteamDB =
 {
@@ -157,8 +158,6 @@ var SteamDB =
 		element.innerHTML = '<a class="game_area_wishlist_btn" target="_blank" href="' + mainURL + '/sub/' + SteamDB.CurrentAppID + '/" style="background-image:url(' + IMAGE_STORE + ')">View on Steam Database</a>';
 		
 		container.insertBefore( element, container.firstChild );
-		
-		
 	},
 	
 	/**
@@ -175,6 +174,36 @@ var SteamDB =
 		
 		element = document.createElement( 'div' );
 		element.innerHTML = '<a class="game_area_wishlist_btn" target="_blank" href="' + mainURL + '/app/' + SteamDB.CurrentAppID + '/" style="background-image:url(' + IMAGE_STORE + ')">View on Steam Database</a>';
+		
+		container.insertBefore( element, null );
+	},
+	
+	/**
+	 * Profile page
+	 */
+	InjectProfile: function( )
+	{
+		container = document.querySelector( '#profile_action_dropdown .popup_body' );
+		
+		if( !container )
+		{
+			return;
+		}
+		
+		// Can't access g_rgProfileData inside sandbox
+		var steamID = pathName.match( /^\/(id|profiles)\/([^\s/]+)\/?$/ );
+		
+		if( !steamID )
+		{
+			// wtf?
+			return;
+		}
+		
+		element = document.createElement( 'a' );
+		element.href = mainURL + '/calculator/?player=' + steamID[ 2 ];
+		element.target = '_blank';
+		element.className = 'popup_menu_item';
+		element.innerHTML = '<img src="' + IMAGE_PROFILE + '">&nbsp; SteamDB Calculator';
 		
 		container.insertBefore( element, null );
 	},
@@ -297,7 +326,11 @@ if( location.hostname === 'steamcommunity.com' )
 	{
 		SteamDB.InjectGameGroup( );
 	}
-	else if( pathName.match( /^\/(id|profiles)\/[\S]+\/inventory/ ) ) // /^\/(id|profiles)\//
+	else if( pathName.match( /^\/(id|profiles)\/[^\s/]+\/?$/ ) )
+	{
+		SteamDB.InjectProfile( );
+	}
+	else if( pathName.match( /^\/(id|profiles)\/[^\s/]+\/inventory/ ) )
 	{
 		SteamDB.InjectProfileInventory( );
 	}
