@@ -1,5 +1,5 @@
 // ==UserScript==
-// @version        1.6.1
+// @version        1.6.2
 // @name           Steam Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @homepage       http://steamdb.info
@@ -30,7 +30,7 @@ var SteamDB =
 	
 	FindAppID: function( )
 	{
-		element = pathName.match( /\/(\d)+/g );
+		element = pathName.match( /\/(\d{1,6})/g );
 		
 		if( element )
 		{
@@ -75,7 +75,7 @@ var SteamDB =
 				return;
 			}
 			
-			SteamDB.CurrentAppID = container.href.match( /(\d)+/g )[ 0 ];
+			SteamDB.CurrentAppID = container.href.match( /\/(\d{1,6})/g )[ 0 ];
 		}
 		
 		container = document.querySelector( '#rightActionBlock' );
@@ -253,7 +253,7 @@ var SteamDB =
 								foundState = 2;
 								break;
 							}
-							else if( link.link && link.link.match( /\.com\/app\// ) )
+							else if( link.link && link.link.match( /\.com\/(app|sub)\// ) )
 							{
 								foundState = 1;
 							}
@@ -265,11 +265,18 @@ var SteamDB =
 							{
 								link = rgActions[ i ].link;
 								
-								if( link && link.match( /\.com\/app\// ) )
+								if( !link )
+								{
+									continue;
+								}
+								
+								link = link.match( /\.com\/(app|sub)\/(\d{1,6})/ );
+								
+								if( link )
 								{
 									rgActions.push( {
 										steamdb: true,
-										link: 'http://steamdb.info/app/' + link.match( /(\d)+/g ) + '/', // mainURL is not accessible from here
+										link: 'http://steamdb.info/' + link[ 1 ] + '/' + link[ 2 ] + '/', // mainURL is not accessible from here
 										name: 'View on Steam Database'
 									} );
 									
