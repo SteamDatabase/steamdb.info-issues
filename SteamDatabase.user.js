@@ -1,5 +1,5 @@
 // ==UserScript==
-// @version        1.6.2
+// @version        1.6.3
 // @name           Steam Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @homepage       http://steamdb.info
@@ -12,6 +12,8 @@
 // @match          http://steamcommunity.com/games/*
 // @match          http://steamcommunity.com/id/*
 // @match          http://steamcommunity.com/profiles/*
+// @match          http://steamcommunity.com/sharedfiles/filedetails*
+// @match          http://steamcommunity.com/workshop/browse*
 // @updateURL      https://github.com/SteamDatabase/SteamDatabase/raw/master/SteamDatabase.user.js
 // ==/UserScript==
 
@@ -41,7 +43,7 @@ var SteamDB =
 	/**
 	 * Game hubs
 	 */
-	InjectGameHub: function( )
+	InjectGameHub: function( bSharedFile )
 	{
 		container = document.querySelector( '.apphub_OtherSiteInfo' );
 		
@@ -50,11 +52,30 @@ var SteamDB =
 			return;
 		}
 		
+		if( bSharedFile )
+		{
+			element = container.querySelector( 'a[href*="http://store.steampowered.com/app/"]' );
+			
+			if( !element )
+			{
+				return;
+			}
+			
+			SteamDB.CurrentAppID = element.href.match( /\/([0-9]{1,6})/g )[ 0 ].substring( 1 );
+		}
+		
 		element = document.createElement( 'a' );
 		element.className = 'btn_blue_white_innerfade btn_medium';
 		element.href = mainURL + '/app/' + SteamDB.CurrentAppID + '/';
 		element.target = '_blank';
 		element.innerHTML = '<span>Steam Database</span>';
+		
+		if( bSharedFile )
+		{
+			// Steam piston blocks button, and can't be clicked
+			element.style.position = 'relative';
+			element.style.zIndex = 1000;
+		}
 		
 		container.insertBefore( element, container.firstChild );
 	},
@@ -75,7 +96,7 @@ var SteamDB =
 				return;
 			}
 			
-			SteamDB.CurrentAppID = container.href.match( /\/([0-9]{1,6})/g )[ 0 ];
+			SteamDB.CurrentAppID = container.href.match( /\/([0-9]{1,6})/g )[ 0 ].substring( 1 );
 		}
 		
 		container = document.querySelector( '#rightActionBlock' );
@@ -321,16 +342,23 @@ var SteamDB =
 	}
 };
 
-SteamDB.FindAppID( );
-
 if( location.hostname === 'steamcommunity.com' )
 {
 	if( pathName.match( /^\/app\// ) )
 	{
-		SteamDB.InjectGameHub( );
+		SteamDB.FindAppID( );
+		
+		SteamDB.InjectGameHub( false );
+	}
+	else if( pathName.match( /^\/sharedfiles\/filedetails\/?$/ ) || pathName.match( /^\/workshop\/browse\/?$/ ) )
+	{
+		console.log( 'true' );
+		SteamDB.InjectGameHub( true );
 	}
 	else if( pathName.match( /^\/games\// ) )
 	{
+		SteamDB.FindAppID( );
+		
 		SteamDB.InjectGameGroup( );
 	}
 	else if( pathName.match( /^\/(id|profiles)\/[^\s/]+\/?$/ ) )
@@ -353,6 +381,8 @@ else
 		
 		return;
 	}
+	
+	SteamDB.FindAppID( );
 	
 	if( pathName.match( /^\/app\// ) )
 	{
