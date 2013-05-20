@@ -352,7 +352,6 @@ if( location.hostname === 'steamcommunity.com' )
 	}
 	else if( pathName.match( /^\/sharedfiles\/filedetails\/?$/ ) || pathName.match( /^\/workshop\/browse\/?$/ ) )
 	{
-		console.log( 'true' );
 		SteamDB.InjectGameHub( true );
 	}
 	else if( pathName.match( /^\/games\// ) )
