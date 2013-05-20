@@ -30,7 +30,7 @@ var SteamDB =
 	
 	FindAppID: function( )
 	{
-		element = pathName.match( /\/(\d{1,6})/g );
+		element = pathName.match( /\/([0-9]{1,6})/g );
 		
 		if( element )
 		{
@@ -75,7 +75,7 @@ var SteamDB =
 				return;
 			}
 			
-			SteamDB.CurrentAppID = container.href.match( /\/(\d{1,6})/g )[ 0 ];
+			SteamDB.CurrentAppID = container.href.match( /\/([0-9]{1,6})/g )[ 0 ];
 		}
 		
 		container = document.querySelector( '#rightActionBlock' );
@@ -270,7 +270,7 @@ var SteamDB =
 									continue;
 								}
 								
-								link = link.match( /\.com\/(app|sub)\/(\d{1,6})/ );
+								link = link.match( /\.com\/(app|sub)\/([0-9]{1,6})/ );
 								
 								if( link )
 								{
