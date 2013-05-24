@@ -1,5 +1,5 @@
 // ==UserScript==
-// @version        1.6.3
+// @version        1.6.4
 // @name           Steam Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @homepage       http://steamdb.info
@@ -14,6 +14,7 @@
 // @match          http://steamcommunity.com/profiles/*
 // @match          http://steamcommunity.com/sharedfiles/filedetails*
 // @match          http://steamcommunity.com/workshop/browse*
+// @match          http://steamcommunity.com/workshop/discussions*
 // @updateURL      https://github.com/SteamDatabase/SteamDatabase/raw/master/SteamDatabase.user.js
 // ==/UserScript==
 
@@ -30,9 +31,11 @@ var SteamDB =
 {
 	CurrentAppID: 0,
 	
+	RegexAppID: /\/([0-9]{1,6})/g,
+	
 	FindAppID: function( )
 	{
-		element = pathName.match( /\/([0-9]{1,6})/g );
+		element = pathName.match( SteamDB.RegexAppID );
 		
 		if( element )
 		{
@@ -54,14 +57,14 @@ var SteamDB =
 		
 		if( bSharedFile )
 		{
-			element = container.querySelector( 'a[href*="http://store.steampowered.com/app/"]' );
+			element = document.querySelector( '.apphub_sectionTab' );
 			
 			if( !element )
 			{
 				return;
 			}
 			
-			SteamDB.CurrentAppID = element.href.match( /\/([0-9]{1,6})/g )[ 0 ].substring( 1 );
+			SteamDB.CurrentAppID = element.href.match( SteamDB.RegexAppID )[ 0 ].substring( 1 );
 		}
 		
 		element = document.createElement( 'a' );
@@ -96,7 +99,7 @@ var SteamDB =
 				return;
 			}
 			
-			SteamDB.CurrentAppID = container.href.match( /\/([0-9]{1,6})/g )[ 0 ].substring( 1 );
+			SteamDB.CurrentAppID = container.href.match( SteamDB.RegexAppID )[ 0 ].substring( 1 );
 		}
 		
 		container = document.querySelector( '#rightActionBlock' );
@@ -350,7 +353,7 @@ if( location.hostname === 'steamcommunity.com' )
 		
 		SteamDB.InjectGameHub( false );
 	}
-	else if( pathName.match( /^\/sharedfiles\/filedetails\/?$/ ) || pathName.match( /^\/workshop\/browse\/?$/ ) )
+	else if( pathName.match( /^\/sharedfiles\/filedetails\/?$/ ) || pathName.match( /^\/workshop\/(browse|discussions)\/?/ ) )
 	{
 		SteamDB.InjectGameHub( true );
 	}
