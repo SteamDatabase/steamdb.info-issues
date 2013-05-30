@@ -1,5 +1,5 @@
 // ==UserScript==
-// @version        1.6.4
+// @version        1.6.5
 // @name           Steam Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @homepage       http://steamdb.info
@@ -153,7 +153,9 @@ var SteamDB =
 			
 			appid = element.value; // It's subid, but let's reuse things
 			
-			element.parentElement.parentElement.insertAdjacentHTML( 'beforeEnd', '<a target="_blank" href="'+ mainURL + '/sub/' + appid + '/" style="float:left;color:#898A8C">View on Steam Database <i>(' + appid + ')</i></a>' );
+			element = element.parentElement.parentElement;
+			
+			element.insertAdjacentHTML( 'beforeEnd', '<a class="steamdb_sub_link" target="_blank" href="'+ mainURL + '/sub/' + appid + '/" style="' + ( element.querySelector( '.game_area_purchase_game_dropdown_left_panel' ) ? '' : 'float:left;' ) + 'color:#898A8C">View on Steam Database <i>(' + appid + ')</i></a>' );
 		}
 		
 		// While we're here, let's fix this broken url
@@ -163,6 +165,19 @@ var SteamDB =
 		{
 			element.href = element.href.replace( /\/\/app\//, '/app/' ) + '/';
 		}
+		
+		if( !document.querySelector( '.game_area_purchase_game_dropdown_selection' ) )
+		{
+			// There are no dropdowns, so don't bother hooking
+			return;
+		}
+		
+		element = document.createElement( 'script' );
+		element.id = 'steamdb_dropdown_hook';
+		element.type = 'text/javascript'; 
+		element.appendChild( document.createTextNode( '(' + SteamDB.InjectAppSubscriptions + ')();' ) );
+		
+		document.head.appendChild( element );
 	},
 	
 	/**
@@ -341,6 +356,32 @@ var SteamDB =
 					link.target = '_blank';
 				}
 			}
+		};
+	},
+	
+	/**
+	 * This function is injected into store's app page
+	 */
+	InjectAppSubscriptions: function( )
+	{
+		var link, SteamDB_Hackery_dropdownSelectOption = window.dropdownSelectOption;
+		
+		window.dropdownSelectOption = function( dropdownName, subId, inCart )
+		{
+			try
+			{
+				link = document.getElementById('add_to_cart_' + dropdownName + '_description_text');
+				link = link.parentNode.querySelector( '.steamdb_sub_link' );
+				
+				link.href = 'http://steamdb.info/sub/' + subId + '/';
+				link.innerHTML = 'View on Steam Database <i>(' + subId + ')</i>';
+			}
+			catch( e )
+			{
+				// Don't break website functionality if something fails above
+			}
+			
+			SteamDB_Hackery_dropdownSelectOption( dropdownName, subId, inCart );
 		};
 	}
 };
