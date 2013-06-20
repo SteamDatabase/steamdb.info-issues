@@ -1,5 +1,5 @@
 // ==UserScript==
-// @version        1.6.5
+// @version        1.6.6
 // @name           Steam Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @homepage       http://steamdb.info
@@ -415,6 +415,8 @@ if( location.hostname === 'steamcommunity.com' )
 }
 else
 {
+	SteamDB.FindAppID( );
+	
 	// Did we hit an error page?
 	container = document.getElementById( 'error_box' );
 	
@@ -424,8 +426,6 @@ else
 		
 		return;
 	}
-	
-	SteamDB.FindAppID( );
 	
 	if( pathName.match( /^\/app\// ) )
 	{
