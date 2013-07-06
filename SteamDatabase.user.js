@@ -1,5 +1,5 @@
 // ==UserScript==
-// @version        1.6.6
+// @version        1.6.7
 // @name           Steam Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @homepage       http://steamdb.info
@@ -12,6 +12,7 @@
 // @match          http://steamcommunity.com/games/*
 // @match          http://steamcommunity.com/id/*
 // @match          http://steamcommunity.com/profiles/*
+// @match          http://steamcommunity.com/market/*
 // @match          http://steamcommunity.com/sharedfiles/filedetails*
 // @match          http://steamcommunity.com/workshop/browse*
 // @match          http://steamcommunity.com/workshop/discussions*
@@ -267,6 +268,19 @@ var SteamDB =
 	},
 	
 	/**
+	 * Market page
+	 */
+	InjectMarketInventory: function( )
+	{
+		element = document.createElement( 'script' );
+		element.id = 'steamdb_market_hook';
+		element.type = 'text/javascript'; 
+		element.appendChild( document.createTextNode( '(' + SteamDB.InsaneMarketHackery + ')();' ) );
+		
+		document.head.appendChild( element );
+	},
+	
+	/**
 	 * This function is injected into DOM
 	 */
 	InsaneInventoryHackery: function( )
@@ -359,6 +373,52 @@ var SteamDB =
 		};
 	},
 	
+	InsaneMarketHackery: function( )
+	{
+		var SteamDB_Hackery_BuildHover = window.BuildHover;
+		
+		window.BuildHover = function( prefix, item, owner )
+		{
+			try
+			{
+				if( item.classid )
+				{
+					var found = false;
+					
+					if( !Array.isArray( item.fraudwarnings ) )
+					{
+						item.fraudwarnings = [ ];
+					}
+					else
+					{
+						// We have to search if we inserted already because Steam's economy code re-uses things weirdly
+						for( var i = 0; i < item.fraudwarnings.length; i++ )
+						{
+							if( item.fraudwarnings[ i ].substring( 0, 7 ) === 'ClassID' )
+							{
+								found = true;
+								
+								break;
+							}
+						}
+					}
+					
+					if( !found )
+					{
+						item.fraudwarnings.push( 'ClassID: ' + item.classid );
+					}
+				}
+			}
+			catch( e )
+			{
+				// Don't break website functionality if something fails above
+				console.log( e );
+			}
+			
+			SteamDB_Hackery_BuildHover( prefix, item, owner );
+		};
+	},
+	
 	/**
 	 * This function is injected into store's app page
 	 */
@@ -411,6 +471,11 @@ if( location.hostname === 'steamcommunity.com' )
 	else if( pathName.match( /^\/(id|profiles)\/[^\s/]+\/inventory/ ) )
 	{
 		SteamDB.InjectProfileInventory( );
+		SteamDB.InjectMarketInventory( );
+	}
+	else if( pathName.match( /^\/market\// ) )
+	{
+		SteamDB.InjectMarketInventory( );
 	}
 }
 else
