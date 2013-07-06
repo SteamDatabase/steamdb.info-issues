@@ -1,5 +1,5 @@
 // ==UserScript==
-// @version        1.6.7
+// @version        1.6.8
 // @name           Steam Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @homepage       http://steamdb.info
@@ -406,6 +406,11 @@ var SteamDB =
 					if( !found )
 					{
 						item.fraudwarnings.push( 'ClassID: ' + item.classid );
+						
+						if( item.instanceid > 0 )
+						{
+							item.fraudwarnings.push( 'InstanceID: ' + item.instanceid );
+						}
 					}
 				}
 			}
