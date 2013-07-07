@@ -1,5 +1,5 @@
 // ==UserScript==
-// @version        1.6.8
+// @version        1.6.9
 // @name           Steam Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @homepage       http://steamdb.info
@@ -349,6 +349,19 @@ var SteamDB =
 						} ];
 						
 						foundState = 2;
+					}
+					
+					if( item.tags )
+					{
+						for( i = 0; i < item.tags.length; i++ )
+						{
+							link = item.tags[ i ];
+							
+							if( ( link.internal_name === 'cardborder_1' || link.internal_name === 'droprate_1' || link.internal_name === 'droprate_2' ) && link.name.substring( 0, 5 ) !== '<span' )
+							{
+								item.tags[ i ].name = '<span style="color:#f39c12">' + link.name + '</span>';
+							}
+						}
 					}
 				}
 			}
