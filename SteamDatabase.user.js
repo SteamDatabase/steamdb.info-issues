@@ -506,11 +506,8 @@ else
 	if( container )
 	{
 		container.insertAdjacentHTML( 'beforeEnd', '<br><br><a target="_blank" href="'+ mainURL + '/app/' + SteamDB.CurrentAppID + '/">View on Steam Database</a>' );
-		
-		return;
 	}
-	
-	if( pathName.match( /^\/app\// ) )
+	else if( pathName.match( /^\/app\// ) )
 	{
 		SteamDB.InjectStoreApp( );
 	}
