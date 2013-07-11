@@ -78,10 +78,20 @@ var SteamDB =
 		{
 			// Steam piston blocks button, and can't be clicked
 			element.style.position = 'relative';
-			element.style.zIndex = 1000;
+			element.style.zIndex = 1;
 		}
 		
 		container.insertBefore( element, container.firstChild );
+		
+		// fix AppName madness
+		element = document.querySelector( '.apphub_AppName' );
+		
+		if( element )
+		{
+			element.style.paddingRight = '30px';
+			element.style.maxWidth = 'none';
+			element.style.float = 'none';
+		}
 	},
 	
 	/**
