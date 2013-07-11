@@ -1,5 +1,5 @@
 // ==UserScript==
-// @version        1.6.9
+// @version        1.6.10
 // @name           Steam Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @homepage       http://steamdb.info
@@ -69,7 +69,7 @@ var SteamDB =
 		}
 		
 		element = document.createElement( 'a' );
-		element.className = 'btn_blue_white_innerfade btn_medium';
+		element.className = 'btn_darkblue_white_innerfade btn_medium';
 		element.href = mainURL + '/app/' + SteamDB.CurrentAppID + '/';
 		element.target = '_blank';
 		element.innerHTML = '<span>Steam Database</span>';
