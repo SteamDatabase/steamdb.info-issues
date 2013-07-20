@@ -1,5 +1,5 @@
 // ==UserScript==
-// @version        1.6.10
+// @version        1.7.0
 // @name           Steam Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @homepage       http://steamdb.info
@@ -32,7 +32,7 @@ var SteamDB =
 {
 	CurrentAppID: 0,
 	
-	RegexAppID: /\/([0-9]{1,6})/g,
+	RegexAppID: /\/([0-9]{1,6})\/?/,
 	
 	FindAppID: function( )
 	{
@@ -40,14 +40,14 @@ var SteamDB =
 		
 		if( element )
 		{
-			SteamDB.CurrentAppID = element[ 0 ].substr( 1 );
+			SteamDB.CurrentAppID = element[ 1 ];
 		}
 	},
 	
 	/**
 	 * Game hubs
 	 */
-	InjectGameHub: function( bSharedFile )
+	InjectGameHub: function( bSharedFile, bHackyGameURL )
 	{
 		container = document.querySelector( '.apphub_OtherSiteInfo' );
 		
@@ -56,7 +56,7 @@ var SteamDB =
 			return;
 		}
 		
-		if( bSharedFile )
+		if( bSharedFile || bHackyGameURL )
 		{
 			element = document.querySelector( '.apphub_sectionTab' );
 			
@@ -65,7 +65,7 @@ var SteamDB =
 				return;
 			}
 			
-			SteamDB.CurrentAppID = element.href.match( SteamDB.RegexAppID )[ 0 ].substring( 1 );
+			SteamDB.CurrentAppID = element.href.match( SteamDB.RegexAppID )[ 1 ];
 		}
 		
 		element = document.createElement( 'a' );
@@ -103,14 +103,22 @@ var SteamDB =
 		if( !SteamDB.CurrentAppID )
 		{
 			// Let's try to find game hub link, what possibly could go wrong?
-			container = document.querySelector( 'a[href*="http://steamcommunity.com/app/"]' );
+			container = document.querySelector( isGameHub ? '.apphub_sectionTabs a' : 'a[href*="http://steamcommunity.com/app/"]' );
 			
 			if( !container )
 			{
 				return;
 			}
 			
-			SteamDB.CurrentAppID = container.href.match( SteamDB.RegexAppID )[ 0 ].substring( 1 );
+			SteamDB.CurrentAppID = container.href.match( SteamDB.RegexAppID )[ 1 ];
+		}
+		
+		// Uh oh, if we are in game hub with a fancy /games/ url, we should use game hub code instead
+		if( document.querySelector( '.apphub_OtherSiteInfo' ) !== null )
+		{
+			SteamDB.InjectGameHub( false, true );
+			
+			return;
 		}
 		
 		container = document.querySelector( '#rightActionBlock' );
