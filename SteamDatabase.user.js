@@ -103,7 +103,7 @@ var SteamDB =
 		if( !SteamDB.CurrentAppID )
 		{
 			// Let's try to find game hub link, what possibly could go wrong?
-			container = document.querySelector( isGameHub ? '.apphub_sectionTabs a' : 'a[href*="http://steamcommunity.com/app/"]' );
+			container = document.querySelector( 'a[href*="http://steamcommunity.com/app/"]' );
 			
 			if( !container )
 			{
