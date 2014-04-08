@@ -30,7 +30,7 @@ else
 		var steamID = location.pathname.match( /^\/(?:id|profiles)\/([^\s/]+)\/?/ );
 		
 		var text = document.createElement( 'span' );
-		text.appendChild( document.createTextNode( length > 15 ? 'SteamDB' : 'SteamDB Calculator' ) );
+		text.appendChild( document.createTextNode( length > 15 ? 'SDB' : 'SteamDB Calculator' ) );
 		
 		element = document.createElement( 'a' );
 		element.className = 'btn_profile_action btn_medium steamdb_button' + ( length > 20 ? ' steamdb_button_small' : '' );
