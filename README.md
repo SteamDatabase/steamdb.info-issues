@@ -4,7 +4,7 @@ Welcome to the GitHub page for [steamdb.info](http://steamdb.info/)!
 
 
 ### Intro
-This tool was made to give better insight into the applications and packages that [Steam](http://store.steampowered.com/) has in its database. We go by *Steam Database*, or simply *SteamDB*, if you'd like. We are not affiliated with Valve in any way. Apps and packages in the database will update the second Steam sends out the update to the Steam client.
+This tool was made to give better insight into the applications and packages that [Steam](http://store.steampowered.com/) has in its database. We go by **Steam Database**, or simply **SteamDB**, if you'd like. We are not affiliated with Valve in any way. Apps and packages in the database will update the second Steam sends out the update to the Steam client.
 
 
 ### FAQ and Contact
