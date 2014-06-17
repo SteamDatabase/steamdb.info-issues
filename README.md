@@ -1,6 +1,6 @@
 Steam Database
 =============
-Welcome to the GitHub page for [steamdb.info](http://steamdb.info/)!
+Welcome to the GitHub page for [steamdb.info](http://steamdb.info/)! This repo hosts only the extension code, and serves as a public issue tracker. For the updater code and IRC bot see [here](https://github.com/SteamDatabase/SteamDatabaseBackend).
 
 
 ### Intro
