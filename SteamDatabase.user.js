@@ -1,5 +1,5 @@
 // ==UserScript==
-// @version        1.7.1
+// @version        1.7.2
 // @name           Steam Database Integration
 // @description    Adds Steam Database link across Steam Community and Store
 // @homepage       http://steamdb.info
@@ -8,6 +8,7 @@
 // @match          http://store.steampowered.com/app/*
 // @match          http://store.steampowered.com/sub/*
 // @match          http://store.steampowered.com/video/*
+// @match          https://store.steampowered.com/account/*
 // @match          http://steamcommunity.com/app/*
 // @match          http://steamcommunity.com/games/*
 // @match          http://steamcommunity.com/id/*
@@ -236,6 +237,24 @@ var SteamDB =
 		container.insertBefore( element, null );
 	},
 	
+	/**
+	 * Account
+	 */
+	InjectAccountPackage: function( )
+	{
+		var packages = document.querySelectorAll( 'table.account_table tr td:first-child' );
+
+		if( !packages || packages.length < 1 )
+		{
+			return;
+		}
+
+		for( var i in packages )
+		{
+			packages[i].innerHTML = '<a href="' + mainURL + '/search/?a=sub&q=' + encodeURIComponent( packages[i].innerHTML ) + '" target="_blank">' + packages[i].innerHTML + '</a>';
+		}
+	},
+
 	/**
 	 * Profile page
 	 */
@@ -541,5 +560,9 @@ else
 	else if( pathName.match( /^\/video\// ) )
 	{
 		SteamDB.InjectStoreVideo( );
+	}
+	else if( pathName.match( /^\/account\// ) )
+	{
+		SteamDB.InjectAccountPackage( );
 	}
 }
