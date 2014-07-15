@@ -11,8 +11,10 @@ CREATE TABLE IF NOT EXISTS `Apps` (
   `AppType` smallint(2) NOT NULL DEFAULT '0',
   `Name` varchar(150) CHARACTER SET utf8 NOT NULL DEFAULT 'SteamDB Unknown App',
   `StoreName` varchar(150) CHARACTER SET utf8 NOT NULL,
+  `LastKnownName` varchar(150) CHARACTER SET utf8 NOT NULL,
   `LastUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  UNIQUE KEY `AppID` (`AppID`)
+  UNIQUE KEY `AppID` (`AppID`),
+  KEY `LastUpdated` (`LastUpdated`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -22,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `AppsHistory` (
   `ChangeID` int(9) NOT NULL,
   `AppID` int(7) NOT NULL,
   `Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Action` enum('created_app','deleted_app','created_key','removed_key','modified_key','created_info','modified_info','removed_info','modified_price') COLLATE utf8_bin NOT NULL,
+  `Action` enum('created_app','deleted_app','created_key','removed_key','modified_key','created_info','modified_info','removed_info','modified_price','added_to_sub','removed_from_sub') COLLATE utf8_bin NOT NULL,
   `Key` smallint(4) NOT NULL DEFAULT '0',
   `OldValue` mediumtext COLLATE utf8_bin NOT NULL,
   `NewValue` mediumtext COLLATE utf8_bin NOT NULL,
@@ -45,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `AppsInfo` (
 CREATE TABLE IF NOT EXISTS `AppsTypes` (
   `AppType` smallint(2) NOT NULL AUTO_INCREMENT,
   `Name` varbinary(15) NOT NULL,
-  `DisplayName` varbinary(30) NOT NULL,
+  `DisplayName` varchar(30) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`AppType`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=11 ;
 
@@ -92,10 +94,20 @@ CREATE TABLE IF NOT EXISTS `ChangelistsSubs` (
 
 -- --------------------------------------------------------
 
+CREATE TABLE IF NOT EXISTS `Depots` (
+  `DepotID` int(7) NOT NULL,
+  `Name` varchar(150) CHARACTER SET utf8 NOT NULL DEFAULT 'SteamDB Unknown Depot',
+  `ManifestID` bigint(20) NOT NULL,
+  `Files` mediumtext COLLATE utf8_bin NOT NULL,
+  `LastUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `DepotID` (`DepotID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `GC` (
   `AppID` int(7) NOT NULL,
   `Status` varchar(80) COLLATE utf8_bin NOT NULL,
-  `Version` int(10) NOT NULL DEFAULT '0',
   UNIQUE KEY `AppID` (`AppID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -105,6 +117,9 @@ CREATE TABLE IF NOT EXISTS `ImportantApps` (
   `AppID` int(7) NOT NULL,
   `Announce` tinyint(1) NOT NULL DEFAULT '0',
   `Graph` tinyint(1) NOT NULL DEFAULT '0',
+  `CurrentPlayers` int(7) NOT NULL DEFAULT '0',
+  `MaxPlayers` int(7) NOT NULL DEFAULT '0',
+  `MaxPlayersDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   UNIQUE KEY `AppID` (`AppID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -121,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `KeyNames` (
   `ID` smallint(4) NOT NULL AUTO_INCREMENT,
   `Type` tinyint(1) NOT NULL DEFAULT '0',
   `Name` varchar(90) COLLATE utf8_bin NOT NULL,
-  `DisplayName` varchar(90) COLLATE utf8_bin NOT NULL,
+  `DisplayName` varchar(120) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Name` (`Name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
@@ -139,12 +154,22 @@ CREATE TABLE IF NOT EXISTS `KeyNamesSubs` (
 
 -- --------------------------------------------------------
 
+CREATE TABLE IF NOT EXISTS `MarketingMessages` (
+  `ID` bigint(20) NOT NULL,
+  `Flags` smallint(6) NOT NULL,
+  `Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `Subs` (
   `SubID` int(7) NOT NULL,
   `Name` varchar(150) CHARACTER SET utf8 NOT NULL DEFAULT 'Unknown Sub Name',
   `StoreName` varchar(150) CHARACTER SET utf8 NOT NULL,
   `LastUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  UNIQUE KEY `SubID` (`SubID`)
+  UNIQUE KEY `SubID` (`SubID`),
+  KEY `LastUpdated` (`LastUpdated`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -153,8 +178,10 @@ CREATE TABLE IF NOT EXISTS `SubsApps` (
   `SubID` int(7) NOT NULL,
   `AppID` int(7) NOT NULL,
   `Type` enum('app','depot') COLLATE utf8_bin NOT NULL DEFAULT 'app',
-  UNIQUE KEY `SubID` (`SubID`,`AppID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  UNIQUE KEY `Unique` (`SubID`,`AppID`),
+  KEY `AppID` (`AppID`),
+  KEY `SubID` (`SubID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
