@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS `Apps` (
   `StoreName` varchar(150) CHARACTER SET utf8 NOT NULL,
   `LastKnownName` varchar(150) CHARACTER SET utf8 NOT NULL,
   `LastUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `LastDepotUpdate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   UNIQUE KEY `AppID` (`AppID`),
   KEY `LastUpdated` (`LastUpdated`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
