@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `Apps` (
   `Name` varchar(150) CHARACTER SET utf8 NOT NULL DEFAULT 'SteamDB Unknown App',
   `StoreName` varchar(150) CHARACTER SET utf8 NOT NULL,
   `LastKnownName` varchar(150) CHARACTER SET utf8 NOT NULL,
-  `LastUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `LastUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `LastDepotUpdate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   UNIQUE KEY `AppID` (`AppID`),
   KEY `LastUpdated` (`LastUpdated`)
@@ -50,28 +50,35 @@ CREATE TABLE IF NOT EXISTS `AppsTypes` (
   `Name` varbinary(15) NOT NULL,
   `DisplayName` varchar(30) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`AppType`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=16 ;
 
 INSERT INTO `AppsTypes` (`AppType`, `Name`, `DisplayName`) VALUES
 (0, 'unknown', 'Unknown'),
 (1, 'game', 'Game'),
 (2, 'application', 'Application'),
-(3, 'demo', 'Game Demo'),
+(3, 'demo', 'Demo'),
 (4, 'dlc', 'DLC'),
 (5, 'tool', 'Tool'),
 (6, 'depotonly', 'Depot'),
 (7, 'guide', 'Guide'),
 (8, 'media', 'Media'),
 (9, 'config', 'Config'),
-(10, 'driver', 'Driver');
+(10, 'driver', 'Driver'),
+(11, 'film', 'Film'),
+(12, 'tvseries', 'TV Series'),
+(13, 'video', 'Video'),
+(14, 'plugin', 'Plugin'),
+(15, 'music', 'Music');
 
 -- --------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `Changelists` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
   `ChangeID` int(11) NOT NULL,
   `Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`),
   UNIQUE KEY `id` (`ChangeID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -80,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `ChangelistsApps` (
   `ChangeID` int(11) NOT NULL,
   `AppID` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE KEY `change_id` (`ChangeID`,`AppID`)
+  UNIQUE KEY `ChangeID` (`ChangeID`,`AppID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -98,11 +105,27 @@ CREATE TABLE IF NOT EXISTS `ChangelistsSubs` (
 CREATE TABLE IF NOT EXISTS `Depots` (
   `DepotID` int(7) NOT NULL,
   `Name` varchar(150) CHARACTER SET utf8 NOT NULL DEFAULT 'SteamDB Unknown Depot',
+  `BuildID` int(7) NOT NULL DEFAULT '0',
   `ManifestID` bigint(20) NOT NULL,
   `Files` mediumtext COLLATE utf8_bin NOT NULL,
   `LastUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY `DepotID` (`DepotID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `DepotsHistory` (
+  `ID` int(9) NOT NULL AUTO_INCREMENT,
+  `ChangeID` int(9) NOT NULL,
+  `DepotID` int(7) NOT NULL,
+  `Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Action` enum('added','removed','modified','manifest_change') COLLATE utf8_bin NOT NULL,
+  `File` varchar(300) COLLATE utf8_bin NOT NULL,
+  `OldValue` bigint(20) NOT NULL,
+  `NewValue` bigint(20) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `DepotID` (`DepotID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -117,7 +140,6 @@ CREATE TABLE IF NOT EXISTS `GC` (
 CREATE TABLE IF NOT EXISTS `ImportantApps` (
   `AppID` int(7) NOT NULL,
   `Announce` tinyint(1) NOT NULL DEFAULT '0',
-  `Graph` tinyint(1) NOT NULL DEFAULT '0',
   `CurrentPlayers` int(7) NOT NULL DEFAULT '0',
   `MaxPlayers` int(7) NOT NULL DEFAULT '0',
   `MaxPlayersDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -156,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `KeyNamesSubs` (
 -- --------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `MarketingMessages` (
-  `ID` bigint(20) NOT NULL,
+  `ID` bigint(20) unsigned NOT NULL,
   `Flags` smallint(6) NOT NULL,
   `Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY `ID` (`ID`)
@@ -168,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `Subs` (
   `SubID` int(7) NOT NULL,
   `Name` varchar(150) CHARACTER SET utf8 NOT NULL DEFAULT 'Unknown Sub Name',
   `StoreName` varchar(150) CHARACTER SET utf8 NOT NULL,
-  `LastUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `LastUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY `SubID` (`SubID`),
   KEY `LastUpdated` (`LastUpdated`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
