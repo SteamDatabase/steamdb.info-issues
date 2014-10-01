@@ -138,13 +138,12 @@ CREATE TABLE IF NOT EXISTS `GC` (
 -- --------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `ImportantApps` (
+  `ID` int(4) NOT NULL AUTO_INCREMENT,
   `AppID` int(7) NOT NULL,
-  `Announce` tinyint(1) NOT NULL DEFAULT '0',
-  `CurrentPlayers` int(7) NOT NULL DEFAULT '0',
-  `MaxPlayers` int(7) NOT NULL DEFAULT '0',
-  `MaxPlayersDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  UNIQUE KEY `AppID` (`AppID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `Channel` varchar(50) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `AppID` (`AppID`,`Channel`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
