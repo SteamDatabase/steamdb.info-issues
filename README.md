@@ -9,3 +9,6 @@ This tool was made to give better insight into the applications and packages tha
 
 ### FAQ and Contact
 Check out our [FAQ](http://steamdb.info/faq/) if you have any questions about SteamDB, and if your question is not listed tweet us at [@SteamDB](https://twitter.com/SteamDB). If you do not have Twitter, feel free to make a thread in [our forum](http://steamdb.info/forum/) or join [our webchat](https://webchat.freenode.net/?channels=steamdb) (#SteamDB on FreeNode).
+
+### License
+Code in this repository is governed by a BSD-style license that can be found in the LICENSE file.
