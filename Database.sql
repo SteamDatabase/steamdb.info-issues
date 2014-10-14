@@ -115,6 +115,19 @@ CREATE TABLE IF NOT EXISTS `Depots` (
 
 -- --------------------------------------------------------
 
+CREATE TABLE IF NOT EXISTS `DepotsFiles` (
+  `ID` int(9) unsigned NOT NULL AUTO_INCREMENT,
+  `DepotID` int(7) unsigned NOT NULL,
+  `File` varchar(300) COLLATE utf8_bin NOT NULL,
+  `Hash` char(40) COLLATE utf8_bin NOT NULL DEFAULT '0000000000000000000000000000000000000000',
+  `Size` bigint(20) unsigned NOT NULL,
+  `Flags` int(5) unsigned NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `DepotID` (`DepotID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `DepotsHistory` (
   `ID` int(9) unsigned NOT NULL AUTO_INCREMENT,
   `ChangeID` int(9) unsigned NOT NULL,
