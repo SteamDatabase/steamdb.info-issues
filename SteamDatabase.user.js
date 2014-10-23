@@ -8,6 +8,7 @@
 // @match          *://store.steampowered.com/app/*
 // @match          *://store.steampowered.com/sub/*
 // @updateURL      https://github.com/SteamDatabase/SteamDatabase/raw/master/SteamDatabase.user.js
+// @grant          none
 // ==/UserScript==
 
 //
