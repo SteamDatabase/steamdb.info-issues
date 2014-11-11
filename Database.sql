@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `DepotsHistory` (
   `ChangeID` int(9) unsigned NOT NULL,
   `DepotID` int(7) unsigned NOT NULL,
   `Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Action` enum('added','removed','modified','manifest_change') COLLATE utf8_bin NOT NULL,
+  `Action` enum('added','removed','modified','modified_flags','manifest_change','added_to_sub','removed_from_sub') COLLATE utf8_bin NOT NULL,
   `File` varchar(300) COLLATE utf8_bin NOT NULL,
   `OldValue` bigint(20) unsigned NOT NULL,
   `NewValue` bigint(20) unsigned NOT NULL,
