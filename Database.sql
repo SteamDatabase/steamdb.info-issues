@@ -200,8 +200,9 @@ CREATE TABLE IF NOT EXISTS `MarketingMessages` (
 
 CREATE TABLE IF NOT EXISTS `Subs` (
   `SubID` int(7) unsigned NOT NULL,
-  `Name` varchar(150) CHARACTER SET utf8 NOT NULL DEFAULT 'Unknown Sub Name',
+  `Name` varchar(150) CHARACTER SET utf8 NOT NULL DEFAULT 'SteamDB Unknown Package',
   `StoreName` varchar(150) CHARACTER SET utf8 NOT NULL,
+  `LastKnownName` varchar(150) CHARACTER SET utf8 NOT NULL,
   `LastUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY `SubID` (`SubID`),
   KEY `LastUpdated` (`LastUpdated`)
