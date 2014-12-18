@@ -71,7 +71,7 @@ SteamDB =
 		
 		var i = 0, appid = 0;
 		
-		for( i = 0; i < container.length; i++ )
+		for( i = 0, l = container.length; i < l; i++ )
 		{
 			element = container[ i ];
 			
