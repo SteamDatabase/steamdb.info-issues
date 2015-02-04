@@ -107,7 +107,8 @@ CREATE TABLE IF NOT EXISTS `Depots` (
   `DepotID` int(7) unsigned NOT NULL,
   `Name` varchar(150) CHARACTER SET utf8 NOT NULL DEFAULT 'SteamDB Unknown Depot',
   `BuildID` int(7) unsigned NOT NULL DEFAULT '0',
-  `ManifestID` bigint(20) unsigned NOT NULL,
+  `ManifestID` bigint(20) unsigned NOT NULL COMMENT 'Displayed on the website, used for history',
+  `LastManifestID` bigint(20) unsigned NOT NULL COMMENT 'Only updated after file list was successfully updated',
   `LastUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY `DepotID` (`DepotID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
