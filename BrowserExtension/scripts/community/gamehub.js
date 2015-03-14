@@ -16,7 +16,7 @@ GetOption( { 'button-gamehub': true }, function( items )
 		{
 			element = document.querySelector( '.apphub_sectionTab' );
 			
-			CurrentAppID = element.href.match( /\/([0-9]{1,6})\/?/ );
+			CurrentAppID = element.href.match( /\/(\d{1,6})\/?/ );
 			CurrentAppID = CurrentAppID ? CurrentAppID[ 1 ] : -1;
 		}
 		
@@ -45,10 +45,10 @@ GetOption( { 'button-gamehub': true }, function( items )
 			if( GetCurrentAppID() === -1 )
 			{
 				// Try to find game hub link, what possibly could go wrong?
-				element = document.querySelector( 'a[href*="http://steamcommunity.com/app/"]' );
+				element = document.querySelector( 'a[href*="://steamcommunity.com/app/"]' );
 				
 				// Let's just hope this doesn't break
-				CurrentAppID = element.href.match( /\/([0-9]{1,6})\/?/ )[ 1 ];
+				CurrentAppID = element.href.match( /\/(\d{1,6})\/?/ )[ 1 ];
 			}
 			
 			// image

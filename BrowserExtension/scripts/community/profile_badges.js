@@ -9,7 +9,7 @@ if( length > 0 )
 	
 	for( var i = 0; i < length; i++ )
 	{
-		match = progressInfo[ i ].textContent.match( /([0-9]+) card drops? remaining/ );
+		match = progressInfo[ i ].textContent.match( /(\d+) card drops? remaining/ );
 		
 		if( match )
 		{

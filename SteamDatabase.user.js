@@ -25,7 +25,7 @@ SteamDB =
 {
 	CurrentAppID: 0,
 	
-	RegexAppID: /\/([0-9]{1,6})\/?/,
+	RegexAppID: /\/(\d{1,6})\/?/,
 	
 	FindAppID: function( )
 	{
