@@ -36,7 +36,7 @@ GetOption( { 'link-accountpage': true }, function( items )
 					element.appendChild( document.createTextNode( title ) );
 				}
 				
-				removeElement = removeElement.href.match( /RemoveFreeLicense\( ?([0-9]+)/ );
+				removeElement = removeElement.href.match( /RemoveFreeLicense\( ?(\d+)/ );
 				
 				console.log( removeElement );
 				
