@@ -165,7 +165,7 @@
 								continue;
 							}
 							
-							link = link.match( /\.com\/(app|sub)\/([0-9]{1,6})/ );
+							link = link.match( /\.com\/(app|sub)\/(\d{1,6})/ );
 							
 							if( link )
 							{
