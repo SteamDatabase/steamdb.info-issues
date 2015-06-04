@@ -2,13 +2,14 @@
 	"node": false,
 	"browser": true,
 	"curly": true,
+	"newcap": false,
 	"strict": true,
-	"globalstrict": false,
-	"exported":
-	[
-		"GetCurrentAppID",
-		"GetHomepage",
-		"GetOption",
-		"GetLocalResource"
-	]
+	"globalstrict": true,
+	"globals":
+	{
+		"GetCurrentAppID": false,
+		"GetHomepage": false,
+		"GetOption": false,
+		"GetLocalResource": false
+	}
 }
