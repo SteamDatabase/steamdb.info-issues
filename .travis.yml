@@ -1,0 +1,4 @@
+language: node_js
+notifications:
+  email: false
+script: cd BrowserExtension && npm install && npm test
