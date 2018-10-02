@@ -109,9 +109,9 @@ CREATE TABLE IF NOT EXISTS `DepotsFiles` (
   `ID` int(9) unsigned NOT NULL AUTO_INCREMENT,
   `DepotID` int(7) unsigned NOT NULL,
   `File` varchar(255) COLLATE utf8_bin NOT NULL,
-  `Hash` char(40) COLLATE utf8_bin NOT NULL DEFAULT '0000000000000000000000000000000000000000',
+  `Hash` binary(20) DEFAULT NULL,
   `Size` bigint(20) unsigned NOT NULL,
-  `Flags` int(5) unsigned NOT NULL,
+  `Flags` smallint(5) unsigned NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `File` (`DepotID`,`File`),
   KEY `DepotID` (`DepotID`)
