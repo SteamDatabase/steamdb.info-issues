@@ -5,6 +5,9 @@ Welcome to the GitHub page for [steamdb.info](http://steamdb.info/)! This repo o
 
 For the actual code, see other repositories on [our GitHub organization page](https://github.com/SteamDatabase) or [our open-source landing page](https://opensource.steamdb.info/).
 
+What is SteamDB?
+SteamDB is a website (not affiliated with Valve) that lists and tracks information regarding applications and packages available on Steam.
+
 ### Intro
 This tool was made to give better insight into the applications and packages that [Steam](http://store.steampowered.com/) has in its database. We go by **Steam Database**, or simply **SteamDB**, if you'd like. We are not affiliated with Valve in any way. Apps and packages in the database will update the second Steam sends out the update to the Steam client.
 
